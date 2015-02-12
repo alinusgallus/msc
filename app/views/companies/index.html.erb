@@ -1,0 +1,29 @@
+<h2>MSC companies listing</h2>
+
+
+<div class="container">
+<table class="table table-striped">
+		<tr>
+			<th>Name</th>
+			<th>Category</th>
+			<th>Address</th>
+			<th>Link</th>
+			<th>Year</th>
+		</tr>
+
+		
+		<% @companies.each do |c|%>
+			<tr>
+				<td><%= c.name %></td>
+				<td><%= c.category %></td>
+				<td><%= c.address %></td>
+				<td><%= c.link %></td>
+				<td><%= c.year_of_approval %></td>
+			</tr>
+		<% end -%>
+
+</table>
+</div>
+<div class="container">
+	<%= paginate @companies%>
+</div>
