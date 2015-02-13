@@ -12,6 +12,11 @@ namespace :load_table do
 		comp_list_url = "http://sc.mscmalaysia.my/companydbtest/connector_mssql.asp"
 		comp_xml = open(comp_list_url,'User-Agent' => 'ruby')
 
+		begining = Time.now
+
+		logger = Logger.new('log/load_table_log.log')
+		logger.info " task started at #{begining}"
+
 #create nokogiri object
 		comp_list_xml = Nokogiri::XML(comp_xml)
 
@@ -29,15 +34,16 @@ namespace :load_table do
 			a = comp_detail.css('.general')[3].text.gsub("Address:","").tr("\\\r","").tr("\\\n","").split.join(" ") unless comp_detail.css('.general')[3].nil?
 			l = comp_detail.css('a').text
 			rescue
-
+			logger.error " #{n} detail could not be read " 
 			end
 
 			company = Company.new( name: n , year_of_approval: y, category: c , address: a, link: l )
 			company.save
 
-
-
 		end
+
+		finish =Time.now
+		logger.info " task finished at #{finish}"
 
 
 
